@@ -1,0 +1,227 @@
+%% Copyright (C) 2016 Patricio Rojo, Carolina Gutierrez
+
+%% This program is free software; you can redistribute it and/or
+%% modify it under the terms of version 2 of the GNU General 
+%% Public License as published by the Free Software Foundation.
+
+%% This program is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%% GNU General Public License for more details.
+
+%% You should have received a copy of the GNU General Public License
+%% along with this program; if not, write to the Free Software
+%% Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+%% Boston, MA  02110-1301, USA.
+
+
+
+\documentclass{article}
+
+%% README
+%%
+%% Before running pdflatex in this file, macro names like
+%% @MACRO@ should be replaced by their real VALUE. This
+%% could be accomplished by using sed, for instance:
+%%
+%% sed -e 's/@PLANET@/Wasp-43/g; s/@EPOCH@/20160115T23:00/g; s/@RA@/00:00/g; s/@DEC@/-01:00/g;' <extraction.tex >extraction_wasp43-20160115T23_00.tex
+%%
+%%  And then, run pdflatex twice
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+
+\newgeometry{left=3cm, right=3cm}
+
+\usepackage{graphicx}
+%%\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{tramos_custom}
+\usepackage{listings}
+
+
+\chead{\footnotesize \planet: \epoch}
+\rhead{\footnotesize page \thepage}
+\cfoot{}
+
+\newenvironment{cfigure}{
+  \begin{figure}
+    \begin{center}
+}
+{
+    \end{center}
+  \end{figure}
+}
+
+
+
+\begin{document}
+
+\begin{center}
+\begin{Large}
+  TRAMOS Reduction Pipeline: \planet
+\end{Large}
+
+\vfill
+
+\begin{tabular}{rl}
+  \hline\hline
+  epoch & \epoch \\
+  telescope/instrument & \inst \\
+  period & \period \\
+  semi-major axis & \sma \\
+  RA & \ra \\
+  Dec & \dec \\
+  V  & \magv \\
+  Chosen Apperture & \aperture \\
+  \hline\hline
+\end{tabular}
+                 \end{center}
+\vfill
+
+Reduction notes: \comments
+\vfill\vfill
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[height=0.5\textheight]{figures/ratio.png}
+  \caption{Flux ratio of the target. the x-axis it is in Julian Date.}
+\end{figure}
+
+\clearpage
+
+\begin{center}
+  \includegraphics[height=0.4\textheight]{figures/ref.png}
+\end{center}
+\begin{cfigure}
+  \includegraphics[height=0.4\textheight]{figures/stamp.png}
+  \caption{Timeseries stamps for target planet}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.4\textheight]{figures/radialprof.png}
+  \caption{Radial profile with the range of apertures and the final aperture (optimal) indicated.}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[width=0.45\textwidth]{figures/exptime.png}
+  \includegraphics[width=0.45\textwidth]{figures/centers_xy.png}
+  \caption{plot of variations of exposure time (left) and
+  variations of positions for centers (right) for target and references,
+  the variation is shown in $\Delta x = x_i - x_0$ and $\Delta y = y_i - y_0$ using position
+  (x,y) of first frame as reference ($x_0, y_0$).}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.4\textheight]{figures/apert.png}
+  \caption{Flux out of transit for diferent apertures in a large range. \label{flux1}}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[height=0.35\textheight]{figures/apertstd.png}
+  \caption{Plot of aperture vs standard deviation and mean errorbar for
+  the diferent apertures used in Fig.\ \ref{flux1}}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.4\textheight]{figures/apert2.png}
+  \caption{Flux out of transit for different apertures in a small range. \label{flux2}}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[height=0.35\textheight]{figures/apertstd2.png}
+  \caption{Plot of aperture vs standard deviation and mean errorbar for
+  the diferent apertures used in Fig.\ \ref{flux2}. \label{flux2std}}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.45\textheight]{figures/sky.png}
+  \caption{gráfico flujo fuera de tránsito a distintos anillos manteniendo la misma área.\label{sky}}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[width=0.45\textwidth]{figures/skystd.png}
+  \includegraphics[width=0.45\textwidth]{figures/skystdarea.png}
+  \caption{gráfico cielo (left) razon de area(right) vs desviación estándar y barra de error media para los anillos de cielo en Fig.\ \ref{sky} (con el radio interno en el eje x).}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.45\textheight]{figures/sky_outradius.png}
+  \caption{Flux out of transit for different sky external radius with the same internal radius (chosen in a arbitrary way).\label{sky_inrad}}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[width=0.45\textwidth]{figures/sky_outradiusstd.png}
+  \includegraphics[width=0.45\textwidth]{figures/sky_outradiusstdarea.png}
+  \caption{Plot sky (left) and area ratio (right) vs standard deviation and mean errorbar for the skys used in Fig.\ \ref{sky_inrad}.\label{sky_inradstd}}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.45\textheight]{figures/sky_inradius.png}
+  \caption{Flux out of transit for different sky internal radius with the same
+  external radius (chosen from the minimun standard deviation in Fig.\ \ref{sky_inradstd}).\label{sky_outrad}}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[width=0.45\textwidth]{figures/sky_inradiusstd.png}
+  \includegraphics[width=0.45\textwidth]{figures/sky_inradiusstdarea.png}
+  \caption{Plot sky (left) and area ratio (right) vs standard deviation and mean errorbar for the skys used in Fig.\ \ref{sky_outrad}}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.4\textheight]{figures/normflux.png}
+  \caption{Normalized flux of the target and references at the
+  chosen aperture (from the minimum standard deviation in Fig.\ \ref{flux2std}) for the entire time series, the x-axis it is in Modified Julian Date.}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[height=0.4\textheight]{figures/flux.png}
+  \caption{Flux of the target and references at the chosen aperture (from the minimum standard deviation in Fig.\ \ref{flux2std}) for the entire time series, the x-axis it is in Modified Julian Date.}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.45\textheight]{figures/mom2_mag.png}
+  \caption{Magnitude of second momentum for target and references.}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[width=0.46\textwidth]{figures/peak.png}
+  \includegraphics[width=0.43\textwidth]{figures/excess.png}
+  \caption{Plot of variations of the peak (left) and excess of pixels (right) relative to
+  the chosen aperture (from the minimum standard deviation in Fig.\ \ref{flux2std}).}
+\end{cfigure}
+
+\clearpage
+
+\begin{cfigure}
+  \includegraphics[height=0.45\textheight]{figures/fwhm.png}
+  \caption{Variations of the full width half maximum across the time series for
+  target and references.}
+\end{cfigure}
+\begin{cfigure}
+  \includegraphics[width=0.45\textwidth]{figures/mom3_mag.png}
+  \includegraphics[width=0.45\textwidth]{figures/mom3_ang.png}
+  \caption{Variations of magnitude(left) and angle (right) of the third momentum for
+  target and references.}
+\end{cfigure}
+
+\clearpage
+
+\vspace{20cm}
+Example of running the pipeline:
+\\
+\pipeline
+
+\end{document}
+
+
